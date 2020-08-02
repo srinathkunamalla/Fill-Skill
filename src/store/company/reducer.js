@@ -7,9 +7,7 @@ const initialState = {
     name: undefined
   },
   directors: [],
-  managers: [],
-  selectedDirector: undefined,
-  selectedManageer: undefined
+  skillset: {}
 }
 
 export default (state = initialState, action) => {
@@ -28,22 +26,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         directors: action.directors
-      };
-    case ACTION_TYPES.SET_MANAGERS:
+      }
+    case ACTION_TYPES.SET_SKILLSET:
       return {
         ...state,
-        managers: action.managers
-      };
-    case ACTION_TYPES.SET_SELECTED_DIRECTOR:
-      return {
-        ...state,
-        selectedDirector: action.selectedDirector
-      };
-    case ACTION_TYPES.SET_SELECTED_MANAGER:
-      return {
-        ...state,
-        selectedManageer: action.selectedManageer
-      };
+        skillset: action.skillset
+      }
     default:
       return state;
   }

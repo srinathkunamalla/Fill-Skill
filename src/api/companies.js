@@ -19,5 +19,10 @@ export const Companies = {
       console.log(snapshot.docs.map(doc => Object.assign({id: doc.id}, doc.data()))[0])
       return snapshot.docs.map(doc => Object.assign({id: doc.id}, doc.data()))[0]
     })
-  }
+  },
+  updateSkillset: (cid, skillset) => {
+    return companiesRef.doc(cid).update({
+      skillset
+    })
+  },
 }

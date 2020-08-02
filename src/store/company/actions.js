@@ -21,24 +21,12 @@ export const setDirectors = (directors) => {
     directors
   }
 }
-// export const setManagers = (managers) => {
-//   return {
-//     type: ACTION_TYPES.SET_MANAGERS,
-//     managers
-//   }
-// }
-// export const setSelectedDirector = (selectedDirector) => {
-//   return {
-//     type: ACTION_TYPES.SET_SELECTED_DIRECTOR,
-//     selectedDirector
-//   }
-// }
-// export const setSelectedManager = (selectedManager) => {
-//   return {
-//     type: ACTION_TYPES.SET_SELECTED_MANAGER,
-//     selectedManager
-//   }
-// }
+export const setSkillset = (skillset) => {
+  return {
+    type: ACTION_TYPES.SET_SKILLSET,
+    skillset
+  }
+}
 
 
 // actions
@@ -47,8 +35,13 @@ export const getCompany = (username) => {
     try {
       dispatch(setIsLoading(true))
       const company = await Companies.read(username)
-      dispatch(setCompany(company))
+      dispatch(setCompany({
+        id: company.id,
+        name: company.name
+      }))
+      dispatch(setSkillset(company.skillset))
       console.log(getState())
+      return company
     } catch(e) {
       alert("Error loading company data.")
     } finally {
