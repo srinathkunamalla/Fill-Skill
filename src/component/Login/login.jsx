@@ -28,7 +28,7 @@ export class Login extends React.Component {
           </div>
         </div>
         <div className="footer">
-          <button type="button" className="btn" onClick={() => Directors.delete('walmart', 'test-test')}>
+          <button type="button" className="btn" onClick={() => Companies.read()}>
             Login
           </button>
         </div>

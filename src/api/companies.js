@@ -15,16 +15,9 @@ export const Companies = {
   },
   read: (email) => {
     return companiesRef.where("email", "==", "admin@walmart.com").get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-        const doc = querySnapshot[0]
-        return {
-          id: doc.id,
-          data: doc.data()
-        }
+    .then((snapshot) => {
+      console.log(snapshot.docs.map(doc => Object.assign({id: doc.id}, doc.data()))[0])
+      return snapshot.docs.map(doc => Object.assign({id: doc.id}, doc.data()))[0]
     })
   }
 }

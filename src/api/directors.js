@@ -35,5 +35,9 @@ export const Directors = {
   delete: (cid, did) => {
     return companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).doc(did).delete()
   },
-
+  getAll: async (cid)  => {
+    let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).get()
+    console.log(snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data())))
+    return snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data()))
+  }
 }
