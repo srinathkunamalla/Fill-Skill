@@ -37,7 +37,6 @@ export const Directors = {
   },
   getAll: async (cid)  => {
     let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).get()
-    console.log(snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data())))
     return snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data()))
   }
 }

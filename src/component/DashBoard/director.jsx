@@ -1,14 +1,33 @@
 import React from "react";
+import { Directors } from "../../api/directors";
 
-const Director = props => {
-  return (
-    <div>
+class Director extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {directors: [] };
+  }
+  async componentWillMount() {
+    const cid = this.props.match.params.cid
+    console.log(cid)
+    const directors = await Directors.getAll(cid)
+    this.setState({directors: directors})
+    console.log(this.state.directors)
+
+  }
+  render() {
+    return (
       <div>
-        <h1>Dashboard</h1>
-        <h1>You are on Director Page</h1>
+        <div>
+          <h1>Dashboard</h1>
+          <h1>You are on Director Page</h1>
+          <button type="button" onClick={() => {this.props.history.push(`${this.props.history.location.pathname}/director/chirag`)}} className="btn">
+            select one director
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+ 
 };
 
 export default Director;

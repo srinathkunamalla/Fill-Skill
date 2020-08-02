@@ -1,8 +1,10 @@
 import React from "react";
+import {getCompany, getDirectors} from '../../store/company/actions'
+import { connect } from 'react-redux'
 import { Companies } from "../../api/companies";
-import { Directors } from "../../api/directors";
+import "./style.scss";
 
-export class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
    this.state = {companyName: "", username: "", password: "", errors: [] };
@@ -45,26 +47,30 @@ export class Login extends React.Component {
       this.showValidationErr("companyName", "Company Name cannot be Empty")
     }if (this.state.username === "") {
       this.showValidationErr("username", "Username cannot be Empty")
-    }if (this.state.password === "")
+    }if (this.state.password === "") {
       this.showValidationErr("password", "Password cannot be Empty")
+    }
   }
 
 
 
-  handleSubmit  =() => {
+  handleSubmit  = async () => {
     const error = [];
     if(this.state.companyName.trim() === "") {
       error.push({elm: 'companyName', msg: 'Company Name cannot be Empty'});
     }if (this.state.username.trim() === "") {
       error.push({elm: 'username', msg: 'Username cannot be Empty'});
-    }if (this.state.password.trim() === "")
+    }if (this.state.password.trim() === "") {
       error.push({elm: 'password', msg: 'Password cannot be Empty'});
-      if (error && error.length > 0) {
-        this.setState({errors: error});
-      } else {
-        this.props.history.push("/director");
-      }
-    };
+    }
+    if (error && error.length > 0) {
+      this.setState({errors: error});
+    } else {
+      const company = await Companies.read(this.state.username)
+      // this.props.history.push("/directors")
+      this.props.history.push("/company/" + company.id);
+    }
+  };
 
 
 
@@ -116,3 +122,14 @@ export class Login extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  
+})
+
+const mapDispatchToProps = dispatch => ({
+  getCompany: id => dispatch(getCompany(id)),
+  getDirectors: () => dispatch(getDirectors())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
