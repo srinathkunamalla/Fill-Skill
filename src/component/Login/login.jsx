@@ -1,4 +1,6 @@
 import React from "react";
+import { Companies } from "../../api/companies";
+import { Directors } from "../../api/directors";
 
 export class Login extends React.Component {
   constructor(props) {
@@ -26,7 +28,7 @@ export class Login extends React.Component {
           </div>
         </div>
         <div className="footer">
-          <button type="button" className="btn">
+          <button type="button" className="btn" onClick={() => Directors.delete('walmart', 'test-test')}>
             Login
           </button>
         </div>
