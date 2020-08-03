@@ -39,11 +39,15 @@ export const getCompany = (username) => {
         id: company.id,
         name: company.name
       }))
+      console.log(getState())
+
       dispatch(setSkillset(company.skillset))
       console.log(getState())
+
       return company
     } catch(e) {
-      alert("Error loading company data.")
+      console.log(e)
+      // alert("Error loading company data.")
     } finally {
       dispatch(setIsLoading(false))
     }
@@ -56,9 +60,79 @@ export const getDirectors = () => {
       dispatch(setIsLoading(true))
       const directors = await Directors.getAll(getState().company.id)
       dispatch(setDirectors(directors))
-      console.log(getState())
     } catch(e) {
       alert("Error loading company data.")
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const addCategory = (name) => {
+  return async (dispatch, getState, context) => {
+    try {
+      dispatch(setIsLoading(true))
+      const id = name.replace(/\s+/g, '-').toLowerCase()
+      let skillset = getState().skillset 
+      skillset[id] = {
+        name,
+        skills: {}
+      }
+      await Companies.updateSkillset(getState().company.id, skillset)
+      dispatch(setSkillset({...skillset}))
+    } catch(e) {
+      alert("Error saving category data.")
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const removeCategory = (id) => {
+  return async (dispatch, getState, context) => {
+    try {
+      dispatch(setIsLoading(true))
+      let skillset = getState().skillset 
+      delete skillset[id]
+      await Companies.updateSkillset(getState().company.id, skillset)
+      dispatch(setSkillset({...skillset}))
+    } catch(e) {
+      alert("Error removing category data.")
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const addSkill = (categoryId, name) => {
+  return async (dispatch, getState, context) => {
+    try {
+      dispatch(setIsLoading(true))
+      const id = name.replace(/\s+/g, '-').toLowerCase()
+      let skillset = getState().skillset 
+      skillset[categoryId].skills[id] = name
+      await Companies.updateSkillset(getState().company.id, skillset)
+      console.log(skillset)
+      dispatch(setSkillset({...skillset}))
+    } catch(e) {
+      console.log(e)
+      alert("Error saving data.")
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const removeSkill = (categoryId, id) => {
+  return async (dispatch, getState, context) => {
+    try {
+      dispatch(setIsLoading(true))
+      let skillset = getState().skillset 
+      delete skillset[categoryId].skills[id]
+      await Companies.updateSkillset(getState().company.id, skillset)
+      dispatch(setSkillset({...skillset}))
+    } catch(e) {
+      alert("Error removing data.")
     } finally {
       dispatch(setIsLoading(false))
     }

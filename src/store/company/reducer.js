@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "./constants";
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   company: {
     id: undefined,
