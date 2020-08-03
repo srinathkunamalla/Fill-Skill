@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import * as app from 'firebase';
 const config = {
   apiKey: "AIzaSyAvB34CK7Zdzp4-tikpRFZwszyR40y-xfg",
   authDomain: "gapfinder-a7fce.firebaseapp.com",
@@ -9,6 +9,5 @@ const config = {
   appId: "1:290191860208:web:32ea802e52ca8e49693d35",
   measurementId: "G-T9XL0MZMPV"
 }
-firebase.initializeApp(config);
-const databaseRef = firebase.database().ref();
-export const companiesRef = databaseRef.child("companies")
+const firebase = app.initializeApp(config);
+export default firebase
