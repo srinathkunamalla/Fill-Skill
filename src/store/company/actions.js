@@ -39,15 +39,13 @@ export const getCompany = (username) => {
         id: company.id,
         name: company.name
       }))
-      console.log(getState())
 
       dispatch(setSkillset(company.skillset))
-      console.log(getState())
 
       return company
     } catch(e) {
       console.log(e)
-      // alert("Error loading company data.")
+      alert("Error loading company data.")
     } finally {
       dispatch(setIsLoading(false))
     }
