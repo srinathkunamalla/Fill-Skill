@@ -4,13 +4,14 @@ const db = firebase.firestore()
 let companiesRef = db.collection(COLLECTIONS.COMPANIES)
 
 export const Directors = {
-  create: (cid, name, org) => {
+  create: (cid, name, org, email) => {
     const id = name.replace(/\s+/g, '-').toLowerCase()
     console.log(id)
     return companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).doc(id).set({
       id,
       name,
-      org
+      org,
+      email
     }).catch(e => {
       console.log(e)
     })
@@ -37,6 +38,6 @@ export const Directors = {
   },
   getAll: async (cid)  => {
     let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).get()
-    return snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data()))
+    return snapshot.docs.map(doc => Object.assign({id: doc.id}, doc.data()))
   }
 }
