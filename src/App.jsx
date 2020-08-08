@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Login from './component/Login/login';
-import { Switch, Route, HashRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Director from './component/DashBoard/director';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import history from './history';
@@ -29,7 +29,7 @@ class App extends React.Component {
       <div>
        
 
-        <HashRouter history={history}>
+        <BrowserRouter history={history}>
           <nav class="navbar navbar-dark bg-dark">
             <Link to={`/company/${this.props.company.id}`} class="navbar-brand">GapFinder</Link>
             <ul class="navbar-nav mr-auto">
@@ -48,7 +48,7 @@ class App extends React.Component {
             <Route path="/company/:cid" component={Director} />
             <Route path="/" component={Login} />
           </Switch>
-        </HashRouter>
+        </BrowserRouter>
       </div>
     );
   }
