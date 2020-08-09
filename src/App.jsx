@@ -5,11 +5,12 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Director from './component/DashBoard/director';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import history from './history';
-import Managers from './component/DashBoard/managers';
+import Manager from './component/DashBoard/managers';
 import Skillset from './component/Skillset/skillset';
 import { connect } from 'react-redux'
 import { getCompany } from './store/company/actions';
 import { Link } from 'react-router-dom'
+import Developer from './component/DashBoard/developer';
 
 class App extends React.Component {
   constructor(props) {
@@ -43,7 +44,8 @@ class App extends React.Component {
             </form>
           </nav>
           <Switch>
-            <Route path="/company/:cid/director/:did/" component={Managers} />
+            <Route path="/company/:cid/director/:did/manager/:mid" component={Developer} />
+            <Route path="/company/:cid/director/:did/" component={Manager} />
             <Route path="/company/:cid/skillset" component={Skillset} />
             <Route path="/company/:cid" component={Director} />
             <Route path="/" component={Login} />

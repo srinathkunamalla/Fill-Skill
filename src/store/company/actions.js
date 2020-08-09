@@ -1,6 +1,7 @@
 import { ACTION_TYPES } from "./constants"
 import { Companies } from "../../api/companies"
 import { Directors } from "../../api/directors"
+import { Type } from 'react-bootstrap-table2-editor';
 
 // setters
 export const setIsLoading = (isLoading) => {
@@ -28,6 +29,13 @@ export const setSkillset = (skillset) => {
   }
 }
 
+export const setColumns = (columns) => {
+  return {
+    type: ACTION_TYPES.SET_COLUMNS,
+    columns
+  }
+}
+
 
 // actions
 export const getCompany = (username) => {
@@ -41,7 +49,50 @@ export const getCompany = (username) => {
       }))
 
       dispatch(setSkillset(company.skillset))
-
+      let columns = [
+        {
+          dataField: 'name',
+          text: 'Name',
+          sort: true
+        }
+      ]
+      const editor = {
+        type: Type.SELECT,
+        options: [{
+          value: '5',
+          label: '5'
+        }, {
+          value: '4',
+          label: '4'
+        }, {
+          value: '3',
+          label: '3'
+        }, {
+          value: '2',
+          label: '2'
+        }, {
+          value: '1',
+          label: '1'
+        }, {
+          value: '0',
+          label: '0'
+        }, {
+          value: '',
+          label: ''
+        }]
+      }
+      Object.keys(company.skillset).forEach(cat => {
+        Object.keys(company.skillset[cat].skills).forEach(key => {
+          columns.push({
+            dataField: key,
+            text: company.skillset[cat].skills[key],
+            sort: true,
+            editor
+          })
+        })
+      })
+      console.log(columns)
+      dispatch(setColumns(columns))
       return company
     } catch(e) {
       console.log(e)

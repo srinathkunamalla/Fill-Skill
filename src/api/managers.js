@@ -4,12 +4,13 @@ const db = firebase.firestore()
 let companiesRef = db.collection(COLLECTIONS.COMPANIES)
 
 export const Managers = {
-  create: (cid, did, name ) => {
+  create: (cid, did, name, email ) => {
     const id = name.replace(/\s+/g, '-').toLowerCase()
     console.log(id)
     return companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).doc(did).collection(COLLECTIONS.MANAGERS).doc(id).set({
       id,
-      name
+      name,
+      email
     }).catch(e => {
       console.log(e)
     })
@@ -25,9 +26,10 @@ export const Managers = {
         }
     })
   },
-  update: (cid, did, mid, name) => {
+  update: (cid, did, mid, name, email) => {
     return companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).doc(did).collection(COLLECTIONS.MANAGERS).doc(mid).update({
       name,
+      email
     })
   },
   delete: (cid, did, mid) => {

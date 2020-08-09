@@ -52,6 +52,10 @@ class Director extends React.Component {
     
   }
 
+  goToManagersPage = (did) => {
+    this.props.history.push(`${this.props.history.location.pathname}/director/${did}`)
+  }
+
   render() {
     return (
       <div>
@@ -77,13 +81,15 @@ class Director extends React.Component {
                   className="mb-2"
                   style={{ width: '250px' }}
                 >
-                  <Card.Header>{director.name}</Card.Header>
-                  <Card.Body>
-                    <Card.Title>{director.id} </Card.Title>
-                    <Card.Text>
-                      <strong>Organization:</strong>&nbsp;&nbsp;{director.org}
-                    </Card.Text>
-                  </Card.Body>
+                  <a style={{ cursor: 'pointer' }} onClick={() => this.goToManagersPage(director.id)}>
+                    <Card.Header >{director.name}</Card.Header>
+                    <Card.Body>
+                      <Card.Title>{director.id} </Card.Title>
+                      <Card.Text>
+                        <strong>Organization:</strong>&nbsp;&nbsp;{director.org}
+                      </Card.Text>
+                    </Card.Body>
+                  </a>
                   <Card.Footer className="text-muted">
                     <div className="row">
                       <div className="col-sm-8">

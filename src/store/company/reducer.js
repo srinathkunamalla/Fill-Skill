@@ -7,7 +7,8 @@ export const initialState = {
     name: undefined
   },
   directors: [],
-  skillset: {}
+  skillset: {},
+  columns: []
 }
 
 export default (state = initialState, action) => {
@@ -31,6 +32,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         skillset: action.skillset
+      }
+    case ACTION_TYPES.SET_COLUMNS:
+      return {
+        ...state,
+        columns: action.columns
       }
     default:
       return state;
