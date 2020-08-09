@@ -1,11 +1,12 @@
 import firebase from '../service/firebase'
 import { COLLECTIONS } from './constants';
+import { v4 as uuidv4 } from 'uuid';
 const db = firebase.firestore()
 let companiesRef = db.collection(COLLECTIONS.COMPANIES)
 
 export const Developers = {
   set: (cid, did, mid, dev ) => {
-    dev.id = dev.id || dev.name.replace(/\s+/g, '-').toLowerCase()
+    dev.id = dev.id || uuidv4()
     return companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).doc(dev.id).set({
       did,
       mid,
