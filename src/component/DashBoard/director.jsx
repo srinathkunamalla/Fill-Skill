@@ -8,6 +8,7 @@ class Director extends React.Component {
     super(props);
     this.state = { directors: [], show: false, isNew: false, directorObj: {}, validated: false };
     this.directorDefaultObj = {id: '', name: '', org: '', email: ''};
+    this.deleteDirector = this.deleteDirector.bind(this);
   }  
 
   componentDidMount() {
@@ -23,6 +24,12 @@ class Director extends React.Component {
   handleClose = () => this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
 
   handleShow = (isNew, directorObj) => this.setState({ show: true, isNew: isNew, directorObj: directorObj });
+
+  async deleteDirector(did){
+    const cid = this.props.match.params.cid
+    await Directors.delete(cid, did);
+    this.getDirectors();
+  }
 
   handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -45,11 +52,13 @@ class Director extends React.Component {
     if (this.state.isNew) {
       const director = await Directors.create(cid, name, org, email);
       this.getDirectors();
-      this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
+      this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj});
     } else {
       // code to edit director
-    }    
-    
+      const director = await Directors.update(cid, this.state.directorObj.id, name, org);
+      this.getDirectors();
+      this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
+    }   
   }
 
   goToManagersPage = (did) => {
@@ -96,7 +105,7 @@ class Director extends React.Component {
                         <Button className="btn btn-sm" onClick={() => this.handleShow(false, director)} variant="outline-primary">Edit</Button>
                       </div>
                       <div className="col-sm-4">
-                        <Button className="btn btn-sm" variant="outline-danger">Delete</Button>
+                        <Button className="btn btn-sm" variant="outline-danger" onClick={() => this.deleteDirector(director.id)}>Delete</Button>
                       </div>
                     </div>
                   </Card.Footer>

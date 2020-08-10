@@ -11,7 +11,7 @@ class Manager extends React.Component {
     const cid = this.props.match.params.cid
     const did = this.props.match.params.did
     const managers = await Managers.getAll(cid, did)
-    console.log(managers)
+    console.log("Manager",+managers)
     this.setState({ managers });
   }
 
