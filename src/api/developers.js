@@ -5,7 +5,7 @@ const db = firebase.firestore()
 let companiesRef = db.collection(COLLECTIONS.COMPANIES)
 
 export const Developers = {
-  set: (cid, did, mid, dev ) => {
+  set: (cid, did, mid, dev) => {
     dev.id = dev.id || uuidv4()
     return companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).doc(dev.id).set({
       did,
@@ -17,21 +17,21 @@ export const Developers = {
   },
   read: (cid, did, mid, developerId) => {
     return companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).doc(developerId).get()
-    .then((doc) => {
+      .then((doc) => {
         if (doc.exists) {
           console.log(doc.data())
           return doc.data()
         } else {
           return undefined
         }
-    })
+      })
   },
   delete: (cid, did, mid, dev) => {
     return companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).doc(dev.id).delete()
   },
-  getAll: async (cid, did, mid)  => {
+  getAll: async (cid, did, mid) => {
     let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).get()
-    const devs =  snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data()))
+    const devs = snapshot.docs.map(doc => Object.assign({ id: 'test' }, doc.data()))
     let result = []
     devs.forEach(dev => {
       if (dev.did === did && dev.mid === mid) {
@@ -40,21 +40,65 @@ export const Developers = {
     })
     return result
   },
-  search: async(cid, query) => {
+  search: async (cid, query) => {
     let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).get()
-    const devs =  snapshot.docs.map(doc => Object.assign({id: 'test'}, doc.data()))
-    query = "test>2"
-    query = query.replace(/\s/g,'')
+    const devs = snapshot.docs.map(doc => Object.assign({ id: 'test' }, doc.data()))
+    //query = "Javascript> 3"
+    query = query.replace(/\s/g, '')
+    let tokens = []
 
-    let tokens = query.split('>')
+    // greater and equal
+    tokens = query.split('>=')
     if (tokens.length > 1) {
-      let skill = tokens[0]
-      let rating = tokens[2]
+      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+      let rating = tokens[1]
+      console.log(tokens)
+      return devs.filter(dev => {
+        return Number(dev[skill]) >= Number(rating)
+      })
+    }
+    // less and equal
+    tokens = query.split('<=')
+    if (tokens.length > 1) {
+      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+      let rating = tokens[1]
+      console.log(tokens)
+      return devs.filter(dev => {
+        return Number(dev[skill]) <= Number(rating)
+      })
+    }
+
+    // greater
+    tokens = query.split('>')
+    if (tokens.length > 1) {
+      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+      let rating = tokens[1]
+      console.log(tokens)
       return devs.filter(dev => {
         return Number(dev[skill]) > Number(rating)
       })
+    }
+    // less
+    tokens = query.split('<')
+    if (tokens.length > 1) {
+      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+      let rating = tokens[1]
+      console.log(tokens)
+      return devs.filter(dev => {
+        return Number(dev[skill]) < Number(rating)
+      })
+    }
+    // equal
+    tokens = query.split('=')
+    if (tokens.length > 1) {
+      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+      let rating = tokens[1]
+      console.log(tokens)
+      return devs.filter(dev => {
+        return Number(dev[skill]) === Number(rating)
+      })
+    }
 
-    } 
 
     return devs
   }
