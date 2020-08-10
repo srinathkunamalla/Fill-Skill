@@ -23,7 +23,7 @@ class Manager extends React.Component {
           <h1>Dashboard</h1>
           <h1>You are on Managers Page</h1>
           <button type="button" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/manager/ravi`) }} className="btn">
-              select one  manager
+              --------->>> select one  manager
           </button>
           
         </div>
