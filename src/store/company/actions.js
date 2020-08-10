@@ -2,6 +2,7 @@ import { ACTION_TYPES } from "./constants"
 import { Companies } from "../../api/companies"
 import { Directors } from "../../api/directors"
 import { Type } from 'react-bootstrap-table2-editor';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 // setters
 export const setIsLoading = (isLoading) => {
@@ -53,7 +54,8 @@ export const getCompany = (username) => {
         {
           dataField: 'name',
           text: 'Name',
-          sort: true
+          sort: true,
+          filter: textFilter(),
         }
       ]
       const editor = {
@@ -87,7 +89,8 @@ export const getCompany = (username) => {
             dataField: key,
             text: company.skillset[cat].skills[key],
             sort: true,
-            editor
+            editor,
+            filter: textFilter(),
           })
         })
       })

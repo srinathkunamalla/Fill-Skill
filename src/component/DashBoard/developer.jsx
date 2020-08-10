@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { Developers } from "../../api/developers";
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+
 var developers = [
   {}
 ];
@@ -36,7 +38,7 @@ class Developer extends React.Component {
       // console.log(developers)
 
     })
-
+    columns = this.props.columns || columns
   }
   componentDidUpdate() {
     columns = this.props.columns
@@ -79,12 +81,17 @@ class Developer extends React.Component {
       ),
       onSelect: this.handleOnSelect
     };
+    const defaultSorted = [{
+      dataField: 'name',
+      order: 'asc'
+    }];
     return (
       <div style={{ margin: '50px' }}>
         <div>
           <h1>You are on Developers Page</h1>
           <button onClick={this.addDeveloper}>Add Developer</button>
           <BootstrapTable
+            bootstrap4
             condensed
             striped
             hover
@@ -102,6 +109,8 @@ class Developer extends React.Component {
               }
             }) }
             selectRow={ selectRow }
+            defaultSorted={ defaultSorted } 
+            filter={ filterFactory() }
           />
         </div>
       </div>
