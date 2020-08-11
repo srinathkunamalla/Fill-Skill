@@ -1,6 +1,6 @@
 import React from "react";
 import { Directors } from "../../api/directors";
-import { Card, CardColumns, Button, Modal, Form, Col, InputGroup } from "react-bootstrap";
+import { Card, CardColumns, Button, Modal, Form, Col, InputGroup, Jumbotron } from "react-bootstrap";
 import { cloneDeep } from "lodash";
 
 class Director extends React.Component {
@@ -68,26 +68,27 @@ class Director extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <h1>Dashboard</h1>
-          <h1>You are on Director Page</h1>
-          <button type="button" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/director/chirag`) }} className="btn">
-            select one director
-          </button>
-        </div>
-        <div className="row">
-          <div className="col-sm-10"></div>
+          <div fluid style={{height: '60px', backgroundColor: 'lightgray'}}>
+            
+            <div className="row pt-3">
+            <div className="col-sm-5">
+          </div>
+          <div className="col-sm-5">
+          <h4>Directors </h4>
+          </div>
           <div className="col-sm-2">
+          <Button className="btn btn-sm" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/director/chirag`) }} variant="primary">Select Director</Button>&nbsp; &nbsp;
             <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.directorDefaultObj)} variant="primary">Add Director</Button>
           </div>
         </div>
-        <div className="row">
-          <CardColumns className="m-5">
+          </div>
+        
+          <div className="row m-3">
             {this.state.directors.map((director, i) => {
               return (
                 <Card
                   key={i}
-                  className="mb-2"
+                  className="m-3"
                   style={{ width: '250px' }}
                 >
                   <a style={{ cursor: 'pointer' }} onClick={() => this.goToManagersPage(director.id)}>
@@ -115,8 +116,8 @@ class Director extends React.Component {
             })
             }
 
-          </CardColumns>
-        </div>
+          </div>
+        
         <Modal backdrop="static" show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.state.isNew ? 'Add Director' : 'Edit Director'}</Modal.Title>
