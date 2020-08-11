@@ -27,10 +27,11 @@ export const Directors = {
         }
     })
   },
-  update: (cid, did, name, org) => {
+  update: (cid, did, name, org, email) => {
     return companiesRef.doc(cid).collection(COLLECTIONS.DIRECTORS).doc(did).update({
       name,
-      org
+      org,
+      email
     })
   },
   delete: (cid, did) => {

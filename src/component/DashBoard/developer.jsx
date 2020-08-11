@@ -4,6 +4,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { Developers } from "../../api/developers";
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { Button} from "react-bootstrap";
+
 
 var developers = [
   {}
@@ -86,10 +88,20 @@ class Developer extends React.Component {
       order: 'asc'
     }];
     return (
-      <div style={{ margin: '50px' }}>
+      <div>
         <div>
-          <h1>You are on Developers Page</h1>
-          <button onClick={this.addDeveloper}>Add Developer</button>
+        <div fluid style={{ height: '60px', backgroundColor: 'lightblue' }}>
+          <div className="row pt-3">
+            <div className="col-sm-5">
+            </div>
+            <div className="col-sm-5">
+              <h4>Developers </h4>
+            </div>
+            <div className="col-sm-2">
+            <Button className="btn btn-sm" onClick={this.addDeveloper}>Add Developer</Button>
+            </div>
+          </div>
+          </div>
           <BootstrapTable
             bootstrap4
             condensed

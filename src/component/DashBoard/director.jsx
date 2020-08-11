@@ -7,9 +7,9 @@ class Director extends React.Component {
   constructor(props) {
     super(props);
     this.state = { directors: [], show: false, isNew: false, directorObj: {}, validated: false };
-    this.directorDefaultObj = {id: '', name: '', org: '', email: ''};
+    this.directorDefaultObj = { id: '', name: '', org: '', email: '' };
     this.deleteDirector = this.deleteDirector.bind(this);
-  }  
+  }
 
   componentDidMount() {
     this.getDirectors();
@@ -25,7 +25,7 @@ class Director extends React.Component {
 
   handleShow = (isNew, directorObj) => this.setState({ show: true, isNew: isNew, directorObj: directorObj });
 
-  async deleteDirector(did){
+  async deleteDirector(did) {
     const cid = this.props.match.params.cid
     await Directors.delete(cid, did);
     this.getDirectors();
@@ -42,7 +42,7 @@ class Director extends React.Component {
       const org = form.elements.validationOrg.value;
       const email = form.elements.validationEmail.value;
       this.AddEditDirector(name, org, email);
-    } 
+    }
     event.preventDefault();
     event.stopPropagation();
   };
@@ -52,13 +52,13 @@ class Director extends React.Component {
     if (this.state.isNew) {
       const director = await Directors.create(cid, name, org, email);
       this.getDirectors();
-      this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj});
+      this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
     } else {
       // code to edit director
       const director = await Directors.update(cid, this.state.directorObj.id, name, org);
       this.getDirectors();
       this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
-    }   
+    }
   }
 
   goToManagersPage = (did) => {
@@ -68,65 +68,65 @@ class Director extends React.Component {
   render() {
     return (
       <div>
-          <div fluid style={{height: '60px', backgroundColor: 'lightgray'}}>
-            
-            <div className="row pt-3">
+        <div fluid style={{ height: '60px', backgroundColor: 'lightsteelblue' }}>
+
+          <div className="row pt-3">
             <div className="col-sm-5">
-          </div>
-          <div className="col-sm-5">
-          <h4>Directors </h4>
-          </div>
-          <div className="col-sm-2">
-          <Button className="btn btn-sm" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/director/chirag`) }} variant="primary">Select Director</Button>&nbsp; &nbsp;
+            </div>
+            <div className="col-sm-5">
+              <h4>Directors </h4>
+            </div>
+            <div className="col-sm-2">
+              <Button className="btn btn-sm" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/director/chirag`) }} variant="primary">Select Director</Button>&nbsp; &nbsp;
             <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.directorDefaultObj)} variant="primary">Add Director</Button>
+            </div>
           </div>
         </div>
-          </div>
-        
-          <div className="row m-3">
-            {this.state.directors.map((director, i) => {
-              return (
-                <Card
-                  key={i}
-                  className="m-3"
-                  style={{ width: '250px' }}
-                >
-                  <a style={{ cursor: 'pointer' }} onClick={() => this.goToManagersPage(director.id)}>
-                    <Card.Header >{director.name}</Card.Header>
-                    <Card.Body>
-                      <Card.Title>{director.id} </Card.Title>
-                      <Card.Text>
-                        <strong>Organization:</strong>&nbsp;&nbsp;{director.org}
-                      </Card.Text>
-                    </Card.Body>
-                  </a>
-                  <Card.Footer className="text-muted">
-                    <div className="row">
-                      <div className="col-sm-8">
-                        <Button className="btn btn-sm" onClick={() => this.handleShow(false, director)} variant="outline-primary">Edit</Button>
-                      </div>
-                      <div className="col-sm-4">
-                        <Button className="btn btn-sm" variant="outline-danger" onClick={() => this.deleteDirector(director.id)}>Delete</Button>
-                      </div>
+
+        <div className="row m-3">
+          {this.state.directors.map((director, i) => {
+            return (
+              <Card
+                key={i}
+                className="m-3"
+                style={{ width: '250px' }}
+              >
+                <a style={{ cursor: 'pointer' }} onClick={() => this.goToManagersPage(director.id)}>
+                  <Card.Header >{director.name}</Card.Header>
+                  <Card.Body>
+                    <Card.Title>{director.id} </Card.Title>
+                    <Card.Text>
+                      <strong>Organization:</strong>&nbsp;&nbsp;{director.org}
+                    </Card.Text>
+                  </Card.Body>
+                </a>
+                <Card.Footer className="text-muted">
+                  <div className="row">
+                    <div className="col-sm-8">
+                      <Button className="btn btn-sm" onClick={() => this.handleShow(false, director)} variant="outline-primary">Edit</Button>
                     </div>
-                  </Card.Footer>
-                </Card>
-              );
+                    <div className="col-sm-4">
+                      <Button className="btn btn-sm" variant="outline-danger" onClick={() => this.deleteDirector(director.id)}>Delete</Button>
+                    </div>
+                  </div>
+                </Card.Footer>
+              </Card>
+            );
 
-            })
-            }
+          })
+          }
 
-          </div>
-        
+        </div>
+
         <Modal backdrop="static" show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{this.state.isNew ? 'Add Director' : 'Edit Director'}</Modal.Title>
           </Modal.Header>
           <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
-          <Modal.Body>
-            
+            <Modal.Body>
+
               <Form.Row>
-                
+
                 <Form.Group as={Col} md="5" controlId="validationName">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
@@ -139,14 +139,14 @@ class Director extends React.Component {
                 </Form.Group>
                 <Form.Group as={Col} md="5" controlId="validationOrg">
                   <Form.Label>Organization</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Organization"
-                      required
-                      defaultValue={this.state.directorObj.org}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Origanization is required
+                  <Form.Control
+                    type="text"
+                    placeholder="Organization"
+                    required
+                    defaultValue={this.state.directorObj.org}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Origanization is required
                     </Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
@@ -163,16 +163,16 @@ class Director extends React.Component {
                   <Form.Control.Feedback type="invalid">Email is required</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
-            
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Close
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
           </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
+              <Button variant="primary" type="submit">
+                Save Changes
           </Button>
-          </Modal.Footer>
+            </Modal.Footer>
           </Form>
         </Modal>
       </div>
