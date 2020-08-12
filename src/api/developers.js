@@ -42,62 +42,63 @@ export const Developers = {
   },
   search: async (cid, query) => {
     let snapshot = await companiesRef.doc(cid).collection(COLLECTIONS.DEVELOPERS).get()
-    const devs = snapshot.docs.map(doc => Object.assign({ id: 'test' }, doc.data()))
+    let devs = snapshot.docs.map(doc => Object.assign({ id: 'test' }, doc.data()))
     //query = "Javascript> 3"
     query = query.replace(/\s/g, '')
-    let tokens = []
 
-    // greater and equal
-    tokens = query.split('>=')
-    if (tokens.length > 1) {
-      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
-      let rating = tokens[1]
-      console.log(tokens)
-      return devs.filter(dev => {
-        return Number(dev[skill]) >= Number(rating)
-      })
-    }
-    // less and equal
-    tokens = query.split('<=')
-    if (tokens.length > 1) {
-      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
-      let rating = tokens[1]
-      console.log(tokens)
-      return devs.filter(dev => {
-        return Number(dev[skill]) <= Number(rating)
-      })
-    }
+    let expressions = query.split(',')
+    expressions.forEach(exp => {
+      let tokens = []
 
-    // greater
-    tokens = query.split('>')
-    if (tokens.length > 1) {
-      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
-      let rating = tokens[1]
-      console.log(tokens)
-      return devs.filter(dev => {
-        return Number(dev[skill]) > Number(rating)
-      })
-    }
-    // less
-    tokens = query.split('<')
-    if (tokens.length > 1) {
-      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
-      let rating = tokens[1]
-      console.log(tokens)
-      return devs.filter(dev => {
-        return Number(dev[skill]) < Number(rating)
-      })
-    }
-    // equal
-    tokens = query.split('=')
-    if (tokens.length > 1) {
-      let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
-      let rating = tokens[1]
-      console.log(tokens)
-      return devs.filter(dev => {
-        return Number(dev[skill]) === Number(rating)
-      })
-    }
+      // greater and equal
+      tokens = exp.split('>=')
+      if (tokens.length > 1) {
+        let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+        let rating = tokens[1]
+        devs = devs.filter(dev => {
+          return Number(dev[skill]) >= Number(rating)
+        })
+      }
+      // less and equal
+      tokens = exp.split('<=')
+      if (tokens.length > 1) {
+        let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+        let rating = tokens[1]
+        devs = devs.filter(dev => {
+          return Number(dev[skill]) <= Number(rating)
+        })
+      }
+  
+      // greater
+      tokens = exp.split('>')
+      if (tokens.length > 1) {
+        let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+        let rating = tokens[1]
+        devs = devs.filter(dev => {
+          return Number(dev[skill]) > Number(rating)
+        })
+      }
+      // less
+      tokens = exp.split('<')
+      if (tokens.length > 1) {
+        let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+        let rating = tokens[1]
+        devs = devs.filter(dev => {
+          return Number(dev[skill]) < Number(rating)
+        })
+      }
+      // equal
+      tokens = exp.split('=')
+      if (tokens.length > 1) {
+        let skill = (tokens[0]).replace(/\s+/g, '-').toLowerCase()
+        let rating = tokens[1]
+        devs = devs.filter(dev => {
+          return Number(dev[skill]) === Number(rating)
+        })
+      }
+
+    })
+
 
 
     return devs
