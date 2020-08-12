@@ -1,7 +1,6 @@
 import React from "react";
 import {getCompany, getDirectors} from '../../store/company/actions'
 import { connect } from 'react-redux'
-import { Companies } from "../../api/companies";
 import "./style.scss";
 
 class Login extends React.Component {

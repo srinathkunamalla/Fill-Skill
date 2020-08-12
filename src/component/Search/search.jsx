@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Developers } from "../../api/developers";
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { convertIdToName } from "../../service/util";
 
 var developers = [
   {}
@@ -12,7 +13,7 @@ var originalColumns = [{
   text: 'Director',
   sort: true,
   filter: textFilter(),
-},{
+}, {
   dataField: 'manager',
   text: 'Manager',
   sort: true,
@@ -39,6 +40,9 @@ class Search extends React.Component {
   }
   updateColumns = () => {
     this.props.columns[0].text = 'Developer'
+    this.props.columns.forEach(col => {
+      col.formatter = this.ratingFormatter
+    })
     columns = [
       ...originalColumns,
       ...this.props.columns
@@ -52,19 +56,33 @@ class Search extends React.Component {
     response = response.map(dev => {
       return {
         ...dev,
-        director: this.convertIdToName(dev.did),
-        manager: this.convertIdToName(dev.mid)
+        director: convertIdToName(dev.did),
+        manager: convertIdToName(dev.mid)
       }
     })
     console.log(response)
-    this.setState({developers: response})
+    this.setState({ developers: response })
 
   }
 
-  convertIdToName(id) {
-    return id.split('-')
-    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    .join(' ')
+  ratingFormatter(cell, row) {
+    let color = 'black'
+    if (cell == '5') {
+      color = '#0E8540'
+    } else if (cell == '4'){
+      color = '#6C850E'
+    } else if (cell == '3') {
+      color = '#85660E'
+    } else if (cell == '2') {
+      color = `#854D0E`
+    } else if (cell == '1') {
+      color = '#85240E'
+    }
+    return (
+      <span>
+        <strong style={ { color } }>{ cell }</strong>
+      </span>
+    )
   }
 
   render() {
@@ -73,9 +91,17 @@ class Search extends React.Component {
       order: 'desc'
     }];
     return (
-      <div style={{ margin: '50px' }}>
+      <div>
+        <div fluid style={{ height: '60px', backgroundColor: '#CCD8E2' }}>
+          <div className="row pt-3">
+            <div className="col-sm-5">
+            </div>
+            <div className="col-sm-5">
+              <h4>Search Result </h4>
+            </div>
+          </div>
+        </div>
         <div>
-          <h1>You are on Search</h1>
           <BootstrapTable
             bootstrap4
             condensed
@@ -84,8 +110,8 @@ class Search extends React.Component {
             keyField="id"
             data={this.state && this.state.developers || developers}
             columns={columns}
-            defaultSorted={ defaultSorted } 
-            filter={ filterFactory() }
+            defaultSorted={defaultSorted}
+            filter={filterFactory()}
           />
         </div>
       </div>
