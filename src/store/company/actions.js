@@ -2,7 +2,7 @@ import { ACTION_TYPES } from "./constants"
 import { Companies } from "../../api/companies"
 import { Directors } from "../../api/directors"
 import { Type } from 'react-bootstrap-table2-editor';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { textFilter } from 'react-bootstrap-table2-filter';
 
 // setters
 export const setIsLoading = (isLoading) => {
@@ -37,7 +37,39 @@ export const setColumns = (columns) => {
   }
 }
 
+const editor = {
+  type: Type.SELECT,
+  options: [{
+    value: '5',
+    label: '5'
+  }, {
+    value: '4',
+    label: '4'
+  }, {
+    value: '3',
+    label: '3'
+  }, {
+    value: '2',
+    label: '2'
+  }, {
+    value: '1',
+    label: '1'
+  }, {
+    value: '0',
+    label: '0'
+  }, {
+    value: '',
+    label: ''
+  }]
+}
 
+const orderByKey = (unordered) => {
+  const ordered = {};
+  Object.keys(unordered).sort().forEach(function(key) {
+    ordered[key] = unordered[key];
+  });
+  return ordered
+}
 // actions
 export const getCompany = (username) => {
   return async (dispatch, getState, context) => {
@@ -48,8 +80,6 @@ export const getCompany = (username) => {
         id: company.id,
         name: company.name
       }))
-
-      dispatch(setSkillset(company.skillset))
       let columns = [
         {
           dataField: 'name',
@@ -58,43 +88,22 @@ export const getCompany = (username) => {
           filter: textFilter(),
         }
       ]
-      const editor = {
-        type: Type.SELECT,
-        options: [{
-          value: '5',
-          label: '5'
-        }, {
-          value: '4',
-          label: '4'
-        }, {
-          value: '3',
-          label: '3'
-        }, {
-          value: '2',
-          label: '2'
-        }, {
-          value: '1',
-          label: '1'
-        }, {
-          value: '0',
-          label: '0'
-        }, {
-          value: '',
-          label: ''
-        }]
-      }
-      Object.keys(company.skillset).forEach(cat => {
-        Object.keys(company.skillset[cat].skills).forEach(key => {
+      const skillset = orderByKey(company.skillset)
+      Object.keys(skillset).forEach(cat => {
+        const skills = orderByKey(company.skillset[cat].skills)
+        company.skillset[cat].skills = skills
+        Object.keys(skills).forEach(key => {
           columns.push({
             dataField: key,
-            text: company.skillset[cat].skills[key],
+            text: skills[key],
             sort: true,
             editor,
             filter: textFilter(),
+            align: 'center'
           })
         })
       })
-      console.log(columns)
+      dispatch(setSkillset(skillset))
       dispatch(setColumns(columns))
       return company
     } catch(e) {
@@ -166,6 +175,7 @@ export const addSkill = (categoryId, name) => {
       await Companies.updateSkillset(getState().company.id, skillset)
       console.log(skillset)
       dispatch(setSkillset({...skillset}))
+      dispatch(getCompany())
     } catch(e) {
       console.log(e)
       alert("Error saving data.")
@@ -183,6 +193,7 @@ export const removeSkill = (categoryId, id) => {
       delete skillset[categoryId].skills[id]
       await Companies.updateSkillset(getState().company.id, skillset)
       dispatch(setSkillset({...skillset}))
+      dispatch(getCompany())
     } catch(e) {
       alert("Error removing data.")
     } finally {

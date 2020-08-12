@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 
-
+$primary: #3082C4;
+$danger: #CC4F3E;
+@import '~bootstrap/scss/bootstrap';
 
 @keyframes App-logo-spin {
   from {
@@ -74,23 +76,5 @@
       margin-right: 3em;
       margin-left: 3em;
     }
-  }
-}
-
-//Button
-.btn {
-  font-size: 21px;
-  padding: 5px 20px;
-  border: 0;
-  background-color: #3498db;
-  color: #fff;
-  border-radius: 3px;
-  transition: all 250ms ease-in-out;
-  cursor: pointer;
-  &:hover {
-    background-color: #2386c8;
-  }
-  &:focus {
-    outline: none;
   }
 }

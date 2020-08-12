@@ -1,14 +1,11 @@
 import React from "react";
 import { connect } from 'react-redux'
-import { addCategory, removeCategory, addSkill , removeSkill} from "../../store/company/actions";
+import { addCategory, removeCategory, addSkill, removeSkill } from "../../store/company/actions";
+import { Button, Badge } from "react-bootstrap";
+import "./style.scss";
 
 class Skillset extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  async componentWillMount() {
 
-  }
   addCategory = async () => {
     const name = prompt("Please enter category name")
     if (name) {
@@ -34,31 +31,51 @@ class Skillset extends React.Component {
   renderCategories() {
     const skillsetKeys = (this.props.skillset && Object.keys(this.props.skillset)) || []
     return skillsetKeys.map((key) =>
-      <li key={key}>
-        {this.props.skillset[key].name} 
-        <button onClick={()=>this.removeCategory(key)}>Remove Category</button>
-        <button onClick={()=>this.addSkill(key)}>Add Skill</button>
-        <ul>
+      <div>
+        <div fluid className="row">
+          <div className="col-sm-9">
+            <span className="category">{this.props.skillset[key].name}</span>
+          </div>
+          <div className="col-sm-3">
+            <Button className="btn btn-sm" variant="outline-danger" onClick={() => this.removeCategory(key)}>Remove Category</Button>
+            <Button className="btn btn-sm" variant="outline-primary" onClick={() => this.addSkill(key)}>Add Skill</Button>
+          </div>
+
+        </div>
+
+        <div className="skills-container">
           {this.rednerSkills(this.props.skillset[key].skills, key)}
-        </ul>
-      </li>
+        </div>
+        <hr />
+      </div>
     );
   }
   rednerSkills(skills, categoryId) {
     const skillKeys = (skills && Object.keys(skills)) || []
     return skillKeys.map((key) =>
-      <li key={key}>
-        {skills[key]}
-        <button onClick={()=>this.removeSkill(categoryId, key)}>Remove Skill</button>
-      </li>
+      <span key={key} >
+        <Button variant="secondary" onClick={() => this.removeSkill(categoryId, key)}>
+          <span className="btn-span">{skills[key]}</span><Badge variant="light">X</Badge>
+        </Button>
+      </span>
     )
   }
   render() {
     return (
       <div>
-        <h3>Skillset</h3>
-        <button onClick={this.addCategory}>Add Category</button>
-        <div>
+        <div fluid style={{ height: '60px', backgroundColor: '#CCD8E2' }}>
+          <div className="row pt-3">
+            <div className="col-sm-5">
+            </div>
+            <div className="col-sm-5">
+              <h4>Skillset</h4>
+            </div>
+            <div className="col-sm-2">
+              <Button className="btn btn-sm" onClick={this.addCategory}>Add Category</Button>
+            </div>
+          </div>
+        </div>
+        <div className="container">
           <ul>
             {this.renderCategories()}
           </ul>

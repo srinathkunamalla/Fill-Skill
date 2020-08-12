@@ -1,7 +1,6 @@
 import React from "react";
 import { Directors } from "../../api/directors";
-import { Card, CardColumns, Button, Modal, Form, Col, InputGroup, Jumbotron } from "react-bootstrap";
-import { cloneDeep } from "lodash";
+import { Card, Button, Modal, Form, Col, InputGroup, Jumbotron } from "react-bootstrap";
 
 class Director extends React.Component {
   constructor(props) {
@@ -68,7 +67,7 @@ class Director extends React.Component {
   render() {
     return (
       <div>
-        <div fluid style={{ height: '60px', backgroundColor: 'lightsteelblue' }}>
+        <div fluid style={{ height: '60px', backgroundColor: '#CCD8E2' }}>
 
           <div className="row pt-3">
             <div className="col-sm-5">

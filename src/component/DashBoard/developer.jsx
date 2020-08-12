@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { Developers } from "../../api/developers";
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import { Button} from "react-bootstrap";
+import filterFactory from 'react-bootstrap-table2-filter';
+import { Button } from "react-bootstrap";
+import { convertIdToName } from "../../service/util";
+import { Link } from "react-router-dom";
 
 
 var developers = [
@@ -13,7 +15,7 @@ var developers = [
 var columns = [{
   dataField: 'js',
   text: 'Javascript',
-  
+
 }];
 var cid = ''
 var did = ''
@@ -34,29 +36,24 @@ class Developer extends React.Component {
           }
         })
       })
-      
-      this.setState({developers: response})
-      // developers = this.state.developers
-      // console.log(developers)
-
+      this.setState({ developers: response })
     })
-    columns = this.props.columns || columns
+    this.updateColumns()
   }
   componentDidUpdate() {
-    columns = this.props.columns
-    // developers = this.state.developers
+    this.updateColumns()
   }
 
   addDeveloper = () => {
     let devs = this.state.developers
     let dev = {
       name: 'test',
-    } 
+    }
     columns.forEach(col => {
       dev[col.dataField] = ''
     })
     devs.push(dev)
-    this.setState({developers: devs})
+    this.setState({ developers: devs })
     console.log(this.state.developers)
     // developers = this.state.developers
   }
@@ -67,10 +64,36 @@ class Developer extends React.Component {
     if (row && row.id && isSelect && window.confirm("Are you sure to remove this developer?")) {
       await Developers.delete(cid, did, mid, row)
       const response = await Developers.getAll(cid, did, mid)
-      this.setState({developers: response})
+      this.setState({ developers: response })
     }
   }
 
+  ratingFormatter(cell, row) {
+    let color = 'black'
+    if (cell == '5') {
+      color = '#0E8540'
+    } else if (cell == '4'){
+      color = '#6C850E'
+    } else if (cell == '3') {
+      color = '#85660E'
+    } else if (cell == '2') {
+      color = `#854D0E`
+    } else if (cell == '1') {
+      color = '#85240E'
+    }
+    return (
+      <span>
+        <strong style={ { color } }>{ cell }</strong>
+      </span>
+    )
+  }
+
+  updateColumns() {
+    this.props.columns.forEach(col => {
+      col.formatter = this.ratingFormatter
+    })
+    columns = this.props.columns
+  }
 
   render() {
     const selectRow = {
@@ -90,17 +113,23 @@ class Developer extends React.Component {
     return (
       <div>
         <div>
-        <div fluid style={{ height: '60px', backgroundColor: 'lightblue' }}>
-          <div className="row pt-3">
-            <div className="col-sm-5">
+          <div fluid style={{ height: '60px', backgroundColor: '#CCD8E2' }}>
+            <div className="row pt-3">
+              <div className="col-sm-5">
+              </div>
+              <div className="col-sm-5">
+                <h4>
+                  <span style={{color: '3082C4', }}>
+                    <Link to={`/company/${this.props.match.params.cid}`}>{convertIdToName(this.props.match.params.did)} / </Link> 
+                    <Link to={`/company/${this.props.match.params.cid}/director/${this.props.match.params.did}`}>{convertIdToName(this.props.match.params.mid)} / </Link> 
+                  </span> 
+                  <span> Developers</span>
+                </h4> 
+              </div>
+              <div className="col-sm-2">
+                <Button className="btn btn-sm" onClick={this.addDeveloper}>Add Developer</Button>
+              </div>
             </div>
-            <div className="col-sm-5">
-              <h4>Developers </h4>
-            </div>
-            <div className="col-sm-2">
-            <Button className="btn btn-sm" onClick={this.addDeveloper}>Add Developer</Button>
-            </div>
-          </div>
           </div>
           <BootstrapTable
             bootstrap4
@@ -110,19 +139,20 @@ class Developer extends React.Component {
             keyField="id"
             data={this.state && this.state.developers || developers}
             columns={columns}
-            cellEdit={ cellEditFactory({
+            cellEdit={cellEditFactory({
               mode: 'click',
               blurToSave: true,
               onStartEdit: (row, column, rowIndex, columnIndex) => { console.log('start to edit!!!'); },
-              beforeSaveCell: (oldValue, newValue, row, column) => {  },
-              afterSaveCell: (oldValue, newValue, row, column) => { 
-                console.log(row); 
+              beforeSaveCell: (oldValue, newValue, row, column) => { },
+              afterSaveCell: (oldValue, newValue, row, column) => {
+                console.log(row);
                 Developers.set(cid, did, mid, row)
               }
-            }) }
-            selectRow={ selectRow }
-            defaultSorted={ defaultSorted } 
-            filter={ filterFactory() }
+            })}
+            selectRow={selectRow}
+            defaultSorted={defaultSorted}
+            filter={filterFactory()}
+            noDataIndication="No Developers Found"
           />
         </div>
       </div>
