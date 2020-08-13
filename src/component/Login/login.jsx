@@ -65,7 +65,6 @@ class Login extends React.Component {
     if (error && error.length > 0) {
       this.setState({errors: error});
     } else {
-      // const company = await Companies.read(this.state.username)
       const company = await this.props.getCompany(this.state.username)
       console.log('comapny', company)
       this.props.history.push("/company/" + company.id);

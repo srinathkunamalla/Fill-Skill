@@ -12,7 +12,6 @@ import Developer from './component/DashBoard/developer';
 import search from './component/Search/search';
 
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 
 
@@ -41,7 +40,7 @@ class App extends React.Component {
       <div>
         <BrowserRouter history={history}>
           <nav className="navbar navbar-dark bg-dark">
-            <Link to={`/company/${this.props.company.id}`} className="navbar-brand">GapFinder</Link>
+            <Link to={`/company/${this.props.company.id}`} className="navbar-brand">SkillTracker</Link>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active" key="manage-skill">
                 <Link to={`/company/${this.props.company.id}/skillset`} className="nav-link">Manage Skillset</Link>

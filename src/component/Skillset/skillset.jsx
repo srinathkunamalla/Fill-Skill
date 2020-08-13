@@ -13,7 +13,7 @@ class Skillset extends React.Component {
     }
   }
   removeCategory = async (id) => {
-    if (window.confirm("are you sure to remove this categrory?")) {
+    if (window.confirm("Are you sure to remove this categrory?")) {
       await this.props.removeCategory(id)
     }
   }
@@ -24,7 +24,7 @@ class Skillset extends React.Component {
     }
   }
   removeSkill = async (categoryId, id) => {
-    if (window.confirm("are you sure to remove this skill?")) {
+    if (window.confirm("Are you sure to remove this skill?")) {
       await this.props.removeSkill(categoryId, id)
     }
   }
@@ -68,7 +68,7 @@ class Skillset extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>Skillset</h4>
+              <h5>Skillset</h5>
             </div>
             <div className="col-sm-2">
               <Button className="btn btn-sm" onClick={this.addCategory}>Add Category</Button>

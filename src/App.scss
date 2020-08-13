@@ -78,3 +78,24 @@ $danger: #CC4F3E;
     }
   }
 }
+
+.react-bootstrap-table {
+  max-width: 100%;
+  overflow-x: auto;
+
+  table {
+    table-layout: unset;
+    max-width: 100%;
+    td {
+      width: 100px;
+      min-width: 100px;
+     white-space: nowrap;
+
+    }
+  }
+  
+}
+body {
+  font-family: Arial;
+  font-size: 15px;
+}

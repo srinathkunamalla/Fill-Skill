@@ -85,12 +85,12 @@ class Manager extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>
+              <h5>
                 <span style={{color: '3082C4', }}>
                   <Link to={`/company/${this.props.match.params.cid}`}>{convertIdToName(this.props.match.params.did)} / </Link> 
                 </span> 
                 <span> Managers</span>
-              </h4> 
+              </h5> 
             </div>
             <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.managerDefaultObj)} variant="primary">Add Manager</Button>
           </div>
@@ -105,9 +105,9 @@ class Manager extends React.Component {
                 style={{ width: '250px' }}
               >
                 <a style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/manager/${managers.id}`) }} >
-                  <Card.Header >{managers.id}</Card.Header>
+                <Card.Header ><strong>{managers.name}</strong></Card.Header>
                   <Card.Body>
-                    <Card.Title>{managers.name} </Card.Title>
+                    <Card.Text><i>{managers.email}</i> </Card.Text>
                   </Card.Body>
                 </a>
                 <Card.Footer className="text-muted">

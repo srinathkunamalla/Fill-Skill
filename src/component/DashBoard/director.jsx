@@ -54,7 +54,7 @@ class Director extends React.Component {
       this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
     } else {
       // code to edit director
-      const director = await Directors.update(cid, this.state.directorObj.id, name, org);
+      const director = await Directors.update(cid, this.state.directorObj.id, name, org, email);
       this.getDirectors();
       this.setState({ show: false, isNew: false, directorObj: this.directorDefaultObj });
     }
@@ -73,11 +73,10 @@ class Director extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>Directors </h4>
+              <h5>Directors </h5>
             </div>
             <div className="col-sm-2">
-              <Button className="btn btn-sm" onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/director/chirag`) }} variant="primary">Select Director</Button>&nbsp; &nbsp;
-            <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.directorDefaultObj)} variant="primary">Add Director</Button>
+              <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.directorDefaultObj)} variant="primary">Add Director</Button>
             </div>
           </div>
         </div>
@@ -91,11 +90,14 @@ class Director extends React.Component {
                 style={{ width: '250px' }}
               >
                 <a style={{ cursor: 'pointer' }} onClick={() => this.goToManagersPage(director.id)}>
-                  <Card.Header >{director.name}</Card.Header>
+                  <Card.Header ><strong>{director.name}</strong></Card.Header>
                   <Card.Body>
-                    <Card.Title>{director.id} </Card.Title>
+                    {/* <Card.Title>{director.id} </Card.Title> */}
                     <Card.Text>
-                      <strong>Organization:</strong>&nbsp;&nbsp;{director.org}
+                      <strong>{director.org}</strong>
+                    </Card.Text>
+                    <Card.Text>
+                      <i>{director.email}</i>
                     </Card.Text>
                   </Card.Body>
                 </a>
