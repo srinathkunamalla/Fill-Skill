@@ -97,7 +97,7 @@ class Search extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>Search Result </h4>
+              <h4>Search Results</h4>
             </div>
           </div>
         </div>

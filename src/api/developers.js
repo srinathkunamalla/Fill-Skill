@@ -58,6 +58,7 @@ export const Developers = {
         devs = devs.filter(dev => {
           return Number(dev[skill]) >= Number(rating)
         })
+        return false
       }
       // less and equal
       tokens = exp.split('<=')
@@ -67,6 +68,7 @@ export const Developers = {
         devs = devs.filter(dev => {
           return Number(dev[skill]) <= Number(rating)
         })
+        return false
       }
   
       // greater
@@ -77,6 +79,7 @@ export const Developers = {
         devs = devs.filter(dev => {
           return Number(dev[skill]) > Number(rating)
         })
+        return false
       }
       // less
       tokens = exp.split('<')
@@ -86,6 +89,7 @@ export const Developers = {
         devs = devs.filter(dev => {
           return Number(dev[skill]) < Number(rating)
         })
+        return false
       }
       // equal
       tokens = exp.split('=')
