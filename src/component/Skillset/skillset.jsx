@@ -68,7 +68,7 @@ class Skillset extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>Skillset</h4>
+              <h5>Skillset</h5>
             </div>
             <div className="col-sm-2">
               <Button className="btn btn-sm" onClick={this.addCategory}>Add Category</Button>

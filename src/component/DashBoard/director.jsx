@@ -73,7 +73,7 @@ class Director extends React.Component {
             <div className="col-sm-5">
             </div>
             <div className="col-sm-5">
-              <h4>Directors </h4>
+              <h5>Directors </h5>
             </div>
             <div className="col-sm-2">
               <Button className="btn btn-sm" onClick={() => this.handleShow(true, this.directorDefaultObj)} variant="primary">Add Director</Button>

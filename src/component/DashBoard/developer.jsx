@@ -118,13 +118,13 @@ class Developer extends React.Component {
               <div className="col-sm-5">
               </div>
               <div className="col-sm-5">
-                <h4>
+                <h5>
                   <span style={{color: '3082C4', }}>
                     <Link to={`/company/${this.props.match.params.cid}`}>{convertIdToName(this.props.match.params.did)} / </Link> 
                     <Link to={`/company/${this.props.match.params.cid}/director/${this.props.match.params.did}`}>{convertIdToName(this.props.match.params.mid)} / </Link> 
                   </span> 
                   <span> Developers</span>
-                </h4> 
+                </h5> 
               </div>
               <div className="col-sm-2">
                 <Button className="btn btn-sm" onClick={this.addDeveloper}>Add Developer</Button>
