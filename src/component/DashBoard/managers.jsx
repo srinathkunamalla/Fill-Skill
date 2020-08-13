@@ -105,9 +105,9 @@ class Manager extends React.Component {
                 style={{ width: '250px' }}
               >
                 <a style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`${this.props.history.location.pathname}/manager/${managers.id}`) }} >
-                  <Card.Header >{managers.id}</Card.Header>
+                <Card.Header ><strong>{managers.name}</strong></Card.Header>
                   <Card.Body>
-                    <Card.Title>{managers.name} </Card.Title>
+                    <Card.Text><i>{managers.email}</i> </Card.Text>
                   </Card.Body>
                 </a>
                 <Card.Footer className="text-muted">
